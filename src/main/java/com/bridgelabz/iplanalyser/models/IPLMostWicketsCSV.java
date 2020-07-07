@@ -13,7 +13,7 @@ public class IPLMostWicketsCSV {
     public int innings;
 
     @CsvBindByName(column = "Ov", required = true)
-    public double overs;
+    public String overs;
 
     @CsvBindByName(column = "Runs", required = true)
     public int runs;
@@ -22,13 +22,13 @@ public class IPLMostWicketsCSV {
     public int wickets;
 
     @CsvBindByName(column = "Avg", required = true)
-    public double average;
+    public String average;
 
     @CsvBindByName(column = "Econ", required = true)
-    public double economy;
+    public String economy;
 
     @CsvBindByName(column = "SR", required = true)
-    public double strikeRate;
+    public String strikeRate;
 
     @CsvBindByName(column = "4w", required = true)
     public int fourWickets;
@@ -39,18 +39,18 @@ public class IPLMostWicketsCSV {
     public IPLMostWicketsCSV() {
     }
 
-    public IPLMostWicketsCSV(String player, int match, int innings, double overs, int runs, int wickets,
-                             double average, double economy, double strikeRate, int fourWickets, int fiveWickets) {
-        this.player = player;
-        this.match = match;
-        this.innings = innings;
-        this.overs = overs;
-        this.runs = runs;
-        this.wickets = wickets;
-        this.average = average;
-        this.economy = economy;
-        this.strikeRate = strikeRate;
-        this.fourWickets = fourWickets;
-        this.fiveWickets = fiveWickets;
-    }
+//    public IPLMostWicketsCSV(String player, int match, int innings, String overs, int runs, int wickets,
+//                             String average, double economy, String strikeRate, int fourWickets, int fiveWickets) {
+//        this.player = player;
+//        this.match = match;
+//        this.innings = innings;
+//        this.overs = overs;
+//        this.runs = runs;
+//        this.wickets = wickets;
+//        this.average = average;
+//        this.economy = economy;
+//        this.strikeRate = strikeRate;
+//        this.fourWickets = fourWickets;
+//        this.fiveWickets = fiveWickets;
+//    }
 }
