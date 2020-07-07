@@ -20,13 +20,13 @@ public class IPLMostRunsCSV {
     public int runs;
 
     @CsvBindByName(column = "HS", required = true)
-    public int highestScore;
+    public String highestScore;
 
     @CsvBindByName(column = "Avg", required = true)
-    public double average;
+    public String average;
 
     @CsvBindByName(column = "SR", required = true)
-    public double strikeRate;
+    public String strikeRate;
 
     @CsvBindByName(column = "100", required = true)
     public int hundreds;
@@ -43,19 +43,19 @@ public class IPLMostRunsCSV {
     public IPLMostRunsCSV() {
     }
 
-    public IPLMostRunsCSV(String player, int match, int innings, int notOut, int runs, int highestScore,
-                          double average, double strikeRate, int hundreds, int fifties, int fours, int sixes) {
-        this.player = player;
-        this.match = match;
-        this.innings = innings;
-        this.notOut = notOut;
-        this.runs = runs;
-        this.highestScore = highestScore;
-        this.average = average;
-        this.strikeRate = strikeRate;
-        this.hundreds = hundreds;
-        this.fifties = fifties;
-        this.fours = fours;
-        this.sixes = sixes;
-    }
+//    public IPLMostRunsCSV(String player, int match, int innings, int notOut, int runs, String highestScore,
+//                          double average, double strikeRate, int hundreds, int fifties, int fours, int sixes) {
+//        this.player = player;
+//        this.match = match;
+//        this.innings = innings;
+//        this.notOut = notOut;
+//        this.runs = runs;
+//        this.highestScore = highestScore;
+//        this.average = average;
+//        this.strikeRate = strikeRate;
+//        this.hundreds = hundreds;
+//        this.fifties = fifties;
+//        this.fours = fours;
+//        this.sixes = sixes;
+//    }
 }

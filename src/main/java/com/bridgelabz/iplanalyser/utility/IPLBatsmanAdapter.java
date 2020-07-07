@@ -9,7 +9,7 @@ import java.util.Map;
 public class IPLBatsmanAdapter extends IPLAdapter {
 
     @Override
-    public Map<String, IPLAnalyserDAO> loadIPLData(String... csvFilePath) throws IPLAnalyserException {
+    public Map<String, IPLAnalyserDAO> loadIPLData(String csvFilePath) throws IPLAnalyserException {
         return super.loadIPLData(IPLMostRunsCSV.class,csvFilePath);
     }
 }
