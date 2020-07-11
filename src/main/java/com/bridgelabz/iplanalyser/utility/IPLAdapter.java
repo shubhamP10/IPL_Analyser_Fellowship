@@ -28,6 +28,7 @@ public abstract class IPLAdapter {
             Iterator<E> iplIterator = CSVBuilderFactory.createCSVBuilder().getOpenCSVFileIterator(reader, IPLCSVClass);
             Iterable<E> iplCSV = () -> iplIterator;
             String className = IPLCSVClass.getSimpleName();
+            char ignoreChar = '-';
             switch (className) {
                 case "IPLMostRunsCSV":
                     StreamSupport.stream(iplCSV.spliterator(), false)

@@ -1,8 +1,10 @@
 package com.bridgelabz.iplanalyser.models;
 
+import com.bridgelabz.iplanalyser.services.IPLAnalyser;
+
 public class IPLAnalyserDAO {
     public int wickets;
-    public String strikeRate;
+    public double strikeRate;
     public int runs;
     public int notOut;
     public int hundreds;
@@ -10,12 +12,12 @@ public class IPLAnalyserDAO {
     public int sixes;
     public int fours;
     public int fifties;
-    public String average;
+    public double average;
     public int innings;
     public int match;
     public String playerName;
-    public String overs;
-    public String economy;
+    public double overs;
+    public double economy;
     public int fourWickets;
     public int fiveWickets;
 
@@ -46,5 +48,12 @@ public class IPLAnalyserDAO {
         fourWickets = iplMostWicketsCSV.fourWickets;
         fiveWickets = iplMostWicketsCSV.fiveWickets;
         economy = iplMostWicketsCSV.economy;
+    }
+
+    public Object getIPLDTO(IPLAnalyser.PlayerType playerType) {
+        if (playerType.equals(IPLAnalyser.PlayerType.BATSMAN)) {
+            return new IPLMostRunsCSV(playerName, match, innings, average, strikeRate, highestScore, notOut, runs, fifties, hundreds, fours, sixes);
+        }
+        return new IPLMostWicketsCSV(playerName, match, innings, overs, runs, wickets, average, economy, strikeRate, fourWickets, fiveWickets);
     }
 }
