@@ -83,9 +83,21 @@ public class IPLAnalyserTest {
         try {
             IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
             iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
-            IPLMostRunsCSV maximumFourHitter = iplAnalyser.getMaximumFourHitter();
-            IPLMostRunsCSV maximumSixHitter = iplAnalyser.getMaximumSixHitter();
-            IPLMostRunsCSV bestPlayerWithStrikeRate = iplAnalyser.getPlayerWithBestStrikeRateWith4sAnd6s(maximumFourHitter,maximumSixHitter);
+            IPLMostRunsCSV bestPlayerWithStrikeRate = iplAnalyser.getPlayerWithBestStrikeRateWith4sAnd6s();
+            Assert.assertThat(bestPlayerWithStrikeRate.player, CoreMatchers.is("Andre Russell"));
+        } catch (IPLAnalyserException e) {
+            System.out.println("Fail");
+            e.printStackTrace();
+        }
+    }
+
+    // UC5
+    @Test
+    public void givenIPLMostRunsCSVFile_ShouldReturnCricketerWhoHad_GreatAverageWithBestStrikeRate() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
+            iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
+            IPLMostRunsCSV bestPlayerWithStrikeRate = iplAnalyser.getPlayerWithGreatAverageAndBestStrikeRate();
             Assert.assertThat(bestPlayerWithStrikeRate.player, CoreMatchers.is("Andre Russell"));
         } catch (IPLAnalyserException e) {
             System.out.println("Fail");

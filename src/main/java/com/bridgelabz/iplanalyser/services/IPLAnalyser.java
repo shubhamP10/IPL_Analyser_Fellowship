@@ -71,12 +71,18 @@ public class IPLAnalyser {
         return iplMostFoursCSV[0];
     }
 
-    public IPLMostRunsCSV getPlayerWithBestStrikeRateWith4sAnd6s(IPLMostRunsCSV maximumFourHitter, IPLMostRunsCSV maximumSixHitter) {
+    public IPLMostRunsCSV getPlayerWithBestStrikeRateWith4sAnd6s() throws IPLAnalyserException {
+        IPLMostRunsCSV maximumFourHitter = getMaximumFourHitter();
+        IPLMostRunsCSV maximumSixHitter = getMaximumSixHitter();
         IPLMostRunsCSV bestPlayer = maximumSixHitter;
         if(maximumFourHitter.average > maximumSixHitter.average){
                bestPlayer = maximumFourHitter;
         }
         return bestPlayer;
+    }
+
+    public IPLMostRunsCSV getPlayerWithGreatAverageAndBestStrikeRate() {
+        return null;
     }
 
     public enum PlayerType {BATSMAN, BOWLER}
