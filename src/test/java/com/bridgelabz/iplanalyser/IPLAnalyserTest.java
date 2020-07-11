@@ -3,7 +3,6 @@ package com.bridgelabz.iplanalyser;
 import com.bridgelabz.iplanalyser.exception.IPLAnalyserException;
 import com.bridgelabz.iplanalyser.models.IPLMostRunsCSV;
 import com.bridgelabz.iplanalyser.services.IPLAnalyser;
-import com.google.gson.Gson;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
