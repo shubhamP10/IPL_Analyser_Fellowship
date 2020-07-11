@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
 
+import static java.util.Comparator.*;
 import static java.util.stream.Collectors.toCollection;
 
 public class IPLAnalyser {
@@ -29,7 +30,7 @@ public class IPLAnalyser {
         if (iplAnalyserMap == null || iplAnalyserMap.size() == 0){
             throw new IPLAnalyserException(IPLAnalyserException.ExceptionType.NO_DATA,"No Data");
         }
-        Comparator<IPLAnalyserDAO> iplComparator = Comparator.comparing(iplData -> iplData.average);
+        Comparator<IPLAnalyserDAO> iplComparator = comparing(iplData -> iplData.average);
         ArrayList iplDTO = iplAnalyserMap.values()
                 .stream()
 //                .filter(iplAnalyserDAO -> iplAnalyserDAO.average != '-')
@@ -46,7 +47,7 @@ public class IPLAnalyser {
         if (iplAnalyserMap == null || iplAnalyserMap.size() == 0){
             throw new IPLAnalyserException(IPLAnalyserException.ExceptionType.NO_DATA,"No Data");
         }
-        Comparator<IPLAnalyserDAO> iplComparator = Comparator.comparing(iplData -> iplData.fours);
+        Comparator<IPLAnalyserDAO> iplComparator = comparing(iplData -> iplData.fours);
         ArrayList iplDTO = iplAnalyserMap.values()
                 .stream()
                 .sorted(iplComparator.reversed())
@@ -62,7 +63,23 @@ public class IPLAnalyser {
         if (iplAnalyserMap == null || iplAnalyserMap.size() == 0){
             throw new IPLAnalyserException(IPLAnalyserException.ExceptionType.NO_DATA,"No Data");
         }
-        Comparator<IPLAnalyserDAO> iplComparator = Comparator.comparing(iplData -> iplData.sixes);
+        Comparator<IPLAnalyserDAO> iplComparator = comparing(iplData -> iplData.sixes);
+        ArrayList iplDTO = iplAnalyserMap.values()
+                .stream()
+                .sorted(iplComparator.reversed())
+                .map(censusDAO -> censusDAO.getIPLDTO(playerType))
+                .collect(toCollection(ArrayList::new));
+        String sortedData = new Gson().toJson(iplDTO);
+        IPLMostRunsCSV[] iplMostFoursCSV = new Gson().fromJson(sortedData, IPLMostRunsCSV[].class);
+//        CensusUtility.jsonWriter(sortedData, SORTED_US_POPULATION_JSON);
+        return iplMostFoursCSV[0];
+    }
+
+    public IPLMostRunsCSV getTopStrikeRatePlayer() throws IPLAnalyserException {
+        if (iplAnalyserMap == null || iplAnalyserMap.size() == 0){
+            throw new IPLAnalyserException(IPLAnalyserException.ExceptionType.NO_DATA,"No Data");
+        }
+        Comparator<IPLAnalyserDAO> iplComparator = comparing(iplData -> iplData.strikeRate);
         ArrayList iplDTO = iplAnalyserMap.values()
                 .stream()
                 .sorted(iplComparator.reversed())
