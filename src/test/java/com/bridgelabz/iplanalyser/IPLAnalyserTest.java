@@ -1,7 +1,9 @@
 package com.bridgelabz.iplanalyser;
 
 import com.bridgelabz.iplanalyser.exception.IPLAnalyserException;
+import com.bridgelabz.iplanalyser.models.IPLMostRunsCSV;
 import com.bridgelabz.iplanalyser.services.IPLAnalyser;
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,9 +15,9 @@ public class IPLAnalyserTest {
     public void givenIPLMostRunsCSVFile_ShouldReturn_CorrectRecords() {
         try {
             IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
-            int count = iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN,MOST_RUNS_CSV_FILE_PATH);
-            Assert.assertEquals(100,count);
-        } catch (IPLAnalyserException e){
+            int count = iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
+            Assert.assertEquals(100, count);
+        } catch (IPLAnalyserException e) {
             System.out.println("Fail");
             e.printStackTrace();
         }
@@ -25,9 +27,79 @@ public class IPLAnalyserTest {
     public void givenIPLMostWicketsCSVFile_ShouldReturn_CorrectRecords() {
         try {
             IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BOWLER);
-            int count = iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BOWLER,MOST_WICKETS_CSV_FILE_PATH);
-            Assert.assertEquals(98,count);
-        } catch (IPLAnalyserException e){
+            int count = iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BOWLER, MOST_WICKETS_CSV_FILE_PATH);
+            Assert.assertEquals(99, count);
+        } catch (IPLAnalyserException e) {
+            System.out.println("Fail");
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void giveIPLMostRunsCSVFile_ShouldReturn_PlayerWith_TopBattingAverage() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
+            iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
+            IPLMostRunsCSV bestBattingAveragePlayer = iplAnalyser.getTopBattingAveragePlayer();
+            Assert.assertThat(bestBattingAveragePlayer.player, CoreMatchers.is("MS Dhoni"));
+        } catch (IPLAnalyserException e) {
+            System.out.println("Fail");
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void giveIPLMostRunsCSVFile_ShouldReturn_PlayerWith_TopStrikeRate() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
+            iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
+            IPLMostRunsCSV bestBattingAveragePlayer = iplAnalyser.getTopStrikeRatePlayer();
+            Assert.assertThat(bestBattingAveragePlayer.player, CoreMatchers.is("Ishant Sharma"));
+        } catch (IPLAnalyserException e) {
+            System.out.println("Fail");
+            e.printStackTrace();
+        }
+    }
+
+    // UC3
+    @Test
+    public void givenIPLMostRunsCSVFile_ShouldReturn_PlayersNameWhoHitsMaximum_SixesAndFours() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
+            iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
+            IPLMostRunsCSV maximumFourHitter = iplAnalyser.getMaximumFourHitter();
+            IPLMostRunsCSV maximumSixHitter = iplAnalyser.getMaximumSixHitter();
+            Assert.assertThat(maximumFourHitter.player, CoreMatchers.is("Shikhar Dhawan"));
+            Assert.assertThat(maximumSixHitter.player, CoreMatchers.is("Andre Russell"));
+        } catch (IPLAnalyserException e) {
+            System.out.println("Fail");
+            e.printStackTrace();
+        }
+    }
+
+    // UC4
+    @Test
+    public void givenIPLMostRunsCSVFile_ShouldReturnCricketerWhoHad_BestStrikingRatesWith4sAnd6s() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
+            iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
+            IPLMostRunsCSV bestPlayerWithStrikeRate = iplAnalyser.getPlayerWithBestStrikeRateWith4sAnd6s();
+            Assert.assertThat(bestPlayerWithStrikeRate.player, CoreMatchers.is("Andre Russell"));
+        } catch (IPLAnalyserException e) {
+            System.out.println("Fail");
+            e.printStackTrace();
+        }
+    }
+
+    // UC5
+    @Test
+    public void givenIPLMostRunsCSVFile_ShouldReturnCricketerWhoHad_GreatAverageWithBestStrikeRate() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
+            iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
+            IPLMostRunsCSV bestPlayerWithStrikeRate = iplAnalyser.getPlayerWithGreatAverageAndBestStrikeRate();
+            Assert.assertThat(bestPlayerWithStrikeRate.player, CoreMatchers.is("MS Dhoni"));
+        } catch (IPLAnalyserException e) {
             System.out.println("Fail");
             e.printStackTrace();
         }

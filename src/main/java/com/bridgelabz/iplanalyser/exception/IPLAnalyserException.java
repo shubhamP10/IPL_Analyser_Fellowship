@@ -1,7 +1,5 @@
 package com.bridgelabz.iplanalyser.exception;
 
-import com.bridgelabz.opencsvbuilder.CSVBuilderException;
-
 public class IPLAnalyserException extends Exception {
 
     public IPLAnalyserException(ExceptionType type, String message) {
