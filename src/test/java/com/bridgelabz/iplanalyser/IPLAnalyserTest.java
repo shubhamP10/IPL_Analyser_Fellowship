@@ -3,6 +3,7 @@ package com.bridgelabz.iplanalyser;
 import com.bridgelabz.iplanalyser.exception.IPLAnalyserException;
 import com.bridgelabz.iplanalyser.models.IPLMostRunsCSV;
 import com.bridgelabz.iplanalyser.services.IPLAnalyser;
+import com.google.gson.Gson;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,6 +43,23 @@ public class IPLAnalyserTest {
             iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
             IPLMostRunsCSV bestBattingAveragePlayer = iplAnalyser.getTopBattingAveragePlayer();
             Assert.assertThat(bestBattingAveragePlayer.player, CoreMatchers.is("MS Dhoni"));
+        } catch (IPLAnalyserException e) {
+            System.out.println("Fail");
+            e.printStackTrace();
+        }
+    }
+
+//    UC3
+
+    @Test
+    public void givenIPLMostRunsCSVFile_ShouldReturn_PlayersNameWhoHitsMaximum_SixesAndFours() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
+            iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
+            IPLMostRunsCSV maximumFourHitter = iplAnalyser.getMaximumFourHitter();
+            IPLMostRunsCSV maximumSixHitter = iplAnalyser.getMaximumSixHitter();
+            Assert.assertThat(maximumFourHitter.player, CoreMatchers.is("Shikhar Dhawan"));
+            Assert.assertThat(maximumSixHitter.player, CoreMatchers.is("Andre Russell"));
         } catch (IPLAnalyserException e) {
             System.out.println("Fail");
             e.printStackTrace();
