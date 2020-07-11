@@ -61,8 +61,7 @@ public class IPLAnalyserTest {
         }
     }
 
-//    UC3
-
+    // UC3
     @Test
     public void givenIPLMostRunsCSVFile_ShouldReturn_PlayersNameWhoHitsMaximum_SixesAndFours() {
         try {
@@ -72,6 +71,22 @@ public class IPLAnalyserTest {
             IPLMostRunsCSV maximumSixHitter = iplAnalyser.getMaximumSixHitter();
             Assert.assertThat(maximumFourHitter.player, CoreMatchers.is("Shikhar Dhawan"));
             Assert.assertThat(maximumSixHitter.player, CoreMatchers.is("Andre Russell"));
+        } catch (IPLAnalyserException e) {
+            System.out.println("Fail");
+            e.printStackTrace();
+        }
+    }
+
+    // UC4
+    @Test
+    public void givenIPLMostRunsCSVFile_ShouldReturnCricketerWhoHad_BestStrikingRatesWith4sAnd6s() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
+            iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
+            IPLMostRunsCSV maximumFourHitter = iplAnalyser.getMaximumFourHitter();
+            IPLMostRunsCSV maximumSixHitter = iplAnalyser.getMaximumSixHitter();
+            IPLMostRunsCSV bestPlayerWithStrikeRate = iplAnalyser.getPlayerWithBestStrikeRateWith4sAnd6s(maximumFourHitter,maximumSixHitter);
+            Assert.assertThat(bestPlayerWithStrikeRate.player, CoreMatchers.is("Andre Russell"));
         } catch (IPLAnalyserException e) {
             System.out.println("Fail");
             e.printStackTrace();

@@ -71,5 +71,13 @@ public class IPLAnalyser {
         return iplMostFoursCSV[0];
     }
 
+    public IPLMostRunsCSV getPlayerWithBestStrikeRateWith4sAnd6s(IPLMostRunsCSV maximumFourHitter, IPLMostRunsCSV maximumSixHitter) {
+        IPLMostRunsCSV bestPlayer = maximumSixHitter;
+        if(maximumFourHitter.average > maximumSixHitter.average){
+               bestPlayer = maximumFourHitter;
+        }
+        return bestPlayer;
+    }
+
     public enum PlayerType {BATSMAN, BOWLER}
 }
