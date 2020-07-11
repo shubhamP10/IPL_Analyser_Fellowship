@@ -75,14 +75,25 @@ public class IPLAnalyser {
         IPLMostRunsCSV maximumFourHitter = getMaximumFourHitter();
         IPLMostRunsCSV maximumSixHitter = getMaximumSixHitter();
         IPLMostRunsCSV bestPlayer = maximumSixHitter;
-        if(maximumFourHitter.average > maximumSixHitter.average){
-               bestPlayer = maximumFourHitter;
+        if (maximumFourHitter.average > maximumSixHitter.average) {
+            bestPlayer = maximumFourHitter;
         }
         return bestPlayer;
     }
 
     public IPLMostRunsCSV getPlayerWithGreatAverageAndBestStrikeRate() {
-        return null;
+        Comparator<IPLAnalyserDAO> iplComparator = comparing(iplData -> iplData.average);
+        ArrayList iplDTO = IPLUtility.sort(iplComparator, iplAnalyserMap, true);
+        String sortedData = new Gson().toJson(iplDTO);
+        IPLMostRunsCSV[] iplMostRunsCSV = new Gson().fromJson(sortedData, IPLMostRunsCSV[].class);
+        IPLMostRunsCSV bestPlayer = iplMostRunsCSV[0];
+        for (IPLMostRunsCSV mostRunsCSV : iplMostRunsCSV) {
+            if (iplMostRunsCSV[0].strikeRate < mostRunsCSV.strikeRate && iplMostRunsCSV[0].average < mostRunsCSV.average) {
+                bestPlayer = mostRunsCSV;
+                break;
+            }
+        }
+        return bestPlayer;
     }
 
     public enum PlayerType {BATSMAN, BOWLER}

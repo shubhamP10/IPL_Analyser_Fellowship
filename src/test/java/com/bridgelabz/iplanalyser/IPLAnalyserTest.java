@@ -98,7 +98,7 @@ public class IPLAnalyserTest {
             IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
             iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
             IPLMostRunsCSV bestPlayerWithStrikeRate = iplAnalyser.getPlayerWithGreatAverageAndBestStrikeRate();
-            Assert.assertThat(bestPlayerWithStrikeRate.player, CoreMatchers.is("Andre Russell"));
+            Assert.assertThat(bestPlayerWithStrikeRate.player, CoreMatchers.is("MS Dhoni"));
         } catch (IPLAnalyserException e) {
             System.out.println("Fail");
             e.printStackTrace();
