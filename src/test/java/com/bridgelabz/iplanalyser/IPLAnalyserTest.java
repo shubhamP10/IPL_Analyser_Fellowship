@@ -13,7 +13,6 @@ public class IPLAnalyserTest {
     private static final String MOST_WICKETS_CSV_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostWkts.csv";
     private static final String WRONG_FILE_PATH = "./src/test/resources/wrongFile.csv";
     private static final String NO_DATA_CSV = "src/test/resources/IPL2019FactsheetMostRuns_NoData.csv";
-    private static final String WRONG_HEADER = "src/test/resources/IPL2019FactsheetMostRuns_WrongHeader.csv";
 
     @Test
     public void givenIPLMostRunsCSVFile_ShouldReturn_CorrectRecords() {
