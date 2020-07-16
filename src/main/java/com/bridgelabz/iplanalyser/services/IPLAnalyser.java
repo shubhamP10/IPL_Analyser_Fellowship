@@ -30,12 +30,16 @@ public class IPLAnalyser {
         this.sortMap.put(SortField.MAXIMUM_RUNS, Comparator.comparing(ipl -> ipl.runs));
         this.sortMap.put(SortField.BEST_BOWLING_AVERAGE, Comparator.comparing(ipl -> ipl.average));
         this.sortMap.put(SortField.ECONOMY, Comparator.comparing(ipl -> ipl.economy));
+
         Comparator<IPLAnalyserDAO> foursAndSixesComparator = Comparator.comparing(ipl -> ipl.sixes + ipl.fours);
         Comparator<IPLAnalyserDAO> averageComparator = Comparator.comparing(ipl -> ipl.average);
         Comparator<IPLAnalyserDAO> maxRunsComparator = Comparator.comparing(ipl -> ipl.runs);
+        Comparator<IPLAnalyserDAO> fourAndFiveWicketsComparator = Comparator.comparing(ipl -> ipl.fourWickets + ipl.fiveWickets);
+
         this.sortMap.put(SortField.MAXIMUM_RUNS_WITH_BEST_AVERAGE, maxRunsComparator.thenComparing(ipl -> ipl.average));
         this.sortMap.put(SortField.FOURS_AND_SIXES_WITH_STRIKERATE, foursAndSixesComparator.thenComparing(ipl -> ipl.strikeRate));
         this.sortMap.put(SortField.AVERAGE_WITH_STRIKERATE, averageComparator.thenComparing(ipl -> ipl.strikeRate));
+        this.sortMap.put(SortField.STRIKERATE_WITH_4W_AND_5W, fourAndFiveWicketsComparator.thenComparing(ipl -> ipl.strikeRate));
     }
 
     public int loadIPLData(PlayerType playerType, String csvFilePath) throws IPLAnalyserException {

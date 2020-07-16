@@ -125,4 +125,14 @@ public class IPLAnalyserTest {
         IPLAnalyserDAO[] iplCSV = new Gson().fromJson(player, IPLAnalyserDAO[].class);
         Assert.assertEquals("Shivam Dube", iplCSV[0].playerName);
     }
+
+    //    UC9
+    @Test
+    public void givenIPLMostWicketsCSVFile_ShouldReturnBowlerWhoHas_BestStrikeRateWith5wAnd4w() throws IPLAnalyserException {
+        IPLAnalyser iplAnalyser = new IPLAnalyser();
+        iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BOWLER, MOST_WICKETS_CSV_FILE_PATH);
+        String player = iplAnalyser.getSortedData(SortField.STRIKERATE_WITH_4W_AND_5W, true);
+        IPLAnalyserDAO[] iplCSV = new Gson().fromJson(player, IPLAnalyserDAO[].class);
+        Assert.assertEquals("Lasith Malinga", iplCSV[0].playerName);
+    }
 }
