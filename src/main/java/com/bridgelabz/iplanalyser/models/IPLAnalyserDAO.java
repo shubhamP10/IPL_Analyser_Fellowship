@@ -50,10 +50,4 @@ public class IPLAnalyserDAO {
         economy = iplMostWicketsCSV.economy;
     }
 
-    public Object getIPLDTO(IPLAnalyser.PlayerType playerType) {
-        if (playerType.equals(IPLAnalyser.PlayerType.BATSMAN)) {
-            return new IPLMostRunsCSV(playerName, match, innings, average, strikeRate, highestScore, notOut, runs, fifties, hundreds, fours, sixes);
-        }
-        return new IPLMostWicketsCSV(playerName, match, innings, overs, runs, wickets, average, economy, strikeRate, fourWickets, fiveWickets);
-    }
 }

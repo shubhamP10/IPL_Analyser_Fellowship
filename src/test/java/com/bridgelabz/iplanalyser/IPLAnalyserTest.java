@@ -11,11 +11,14 @@ import org.junit.Test;
 public class IPLAnalyserTest {
     private static final String MOST_RUNS_CSV_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostRuns.csv";
     private static final String MOST_WICKETS_CSV_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostWkts.csv";
+    private static final String WRONG_FILE_PATH = "./src/test/resources/wrongFile.csv";
+    private static final String NO_DATA_CSV = "src/test/resources/IPL2019FactsheetMostRuns_NoData.csv";
+    private static final String WRONG_HEADER = "src/test/resources/IPL2019FactsheetMostRuns_WrongHeader.csv";
 
     @Test
     public void givenIPLMostRunsCSVFile_ShouldReturn_CorrectRecords() {
         try {
-            IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
+            IPLAnalyser iplAnalyser = new IPLAnalyser();
             int count = iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
             Assert.assertEquals(100, count);
         } catch (IPLAnalyserException e) {
@@ -27,7 +30,7 @@ public class IPLAnalyserTest {
     @Test
     public void givenIPLMostWicketsCSVFile_ShouldReturn_CorrectRecords() {
         try {
-            IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BOWLER);
+            IPLAnalyser iplAnalyser = new IPLAnalyser();
             int count = iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BOWLER, MOST_WICKETS_CSV_FILE_PATH);
             Assert.assertEquals(99, count);
         } catch (IPLAnalyserException e) {
@@ -36,12 +39,36 @@ public class IPLAnalyserTest {
         }
     }
 
+    @Test
+    public void givenWrongCSVPathCSVFile_ShouldThrow_Exception() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser();
+            int count = iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, WRONG_FILE_PATH);
+            Assert.assertEquals(99, count);
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+        }
+    }
+
+    @Test
+    public void givenCSVFileWithNoData_ShouldThrow_Exception() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser();
+            iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, NO_DATA_CSV);
+            String player = iplAnalyser.getSortedData(SortField.AVERAGE, true);
+            IPLAnalyserDAO[] iplCSV = new Gson().fromJson(player, IPLAnalyserDAO[].class);
+            Assert.assertEquals("MS Dhoni", iplCSV[0].playerName);
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.NO_DATA);
+        }
+    }
+
     //    UC1
     @Test
     public void getBestAverage() throws IPLAnalyserException {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
-        String player = iplAnalyser.getSortedData(SortField.AVERAGE,true);
+        String player = iplAnalyser.getSortedData(SortField.AVERAGE, true);
         IPLAnalyserDAO[] iplCSV = new Gson().fromJson(player, IPLAnalyserDAO[].class);
         Assert.assertEquals("MS Dhoni", iplCSV[0].playerName);
     }
@@ -51,7 +78,7 @@ public class IPLAnalyserTest {
     public void giveIPLMostRunsCSVFile_ShouldReturn_PlayerWith_TopStrikeRate() throws IPLAnalyserException {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
-        String player = iplAnalyser.getSortedData(SortField.STRIKE_RATE,true);
+        String player = iplAnalyser.getSortedData(SortField.STRIKE_RATE, true);
         IPLAnalyserDAO[] iplCSV = new Gson().fromJson(player, IPLAnalyserDAO[].class);
         Assert.assertEquals("Ishant Sharma", iplCSV[0].playerName);
     }
@@ -61,7 +88,7 @@ public class IPLAnalyserTest {
     public void givenIPLMostRunsCSVFile_ShouldReturn_PlayersNameWhoHitsMaximum_SixesAndFours() throws IPLAnalyserException {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
-        String player = iplAnalyser.getSortedData(SortField.SIXES_AND_FOURS,true);
+        String player = iplAnalyser.getSortedData(SortField.SIXES_AND_FOURS, true);
         IPLAnalyserDAO[] iplCSV = new Gson().fromJson(player, IPLAnalyserDAO[].class);
         Assert.assertEquals("Andre Russell", iplCSV[0].playerName);
     }
@@ -71,7 +98,7 @@ public class IPLAnalyserTest {
     public void givenIPLMostRunsCSVFile_ShouldReturnCricketerWhoHad_BestStrikingRatesWith4sAnd6s() throws IPLAnalyserException {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
-        String player = iplAnalyser.getSortedData(SortField.FOURS_AND_SIXES_WITH_STRIKERATE,true);
+        String player = iplAnalyser.getSortedData(SortField.FOURS_AND_SIXES_WITH_STRIKERATE, true);
         IPLAnalyserDAO[] iplCSV = new Gson().fromJson(player, IPLAnalyserDAO[].class);
         Assert.assertEquals("Andre Russell", iplCSV[0].playerName);
     }
@@ -81,7 +108,7 @@ public class IPLAnalyserTest {
     public void givenIPLMostRunsCSVFile_ShouldReturnCricketerWhoHad_GreatAverageWithBestStrikeRate() throws IPLAnalyserException {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
-        String player = iplAnalyser.getSortedData(SortField.AVERAGE_WITH_STRIKERATE,true);
+        String player = iplAnalyser.getSortedData(SortField.AVERAGE_WITH_STRIKERATE, true);
         IPLAnalyserDAO[] iplCSV = new Gson().fromJson(player, IPLAnalyserDAO[].class);
         Assert.assertEquals("MS Dhoni", iplCSV[0].playerName);
     }
@@ -91,7 +118,7 @@ public class IPLAnalyserTest {
     public void givenIPLMostRunsCSVFile_ShouldReturnCricketerWhoHits_MaximumRunsWithBestAverage() throws IPLAnalyserException {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
-        String player = iplAnalyser.getSortedData(SortField.MAXIMUM_RUNS_WITH_BEST_AVERAGE,true);
+        String player = iplAnalyser.getSortedData(SortField.MAXIMUM_RUNS_WITH_BEST_AVERAGE, true);
         IPLAnalyserDAO[] iplCSV = new Gson().fromJson(player, IPLAnalyserDAO[].class);
         Assert.assertEquals("David Warner", iplCSV[0].playerName);
     }
@@ -101,7 +128,7 @@ public class IPLAnalyserTest {
     public void givenIPLMostWicketsCSVFile_ShouldReturnCricketerWhoHas_BestBowlingAverage() throws IPLAnalyserException {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BOWLER, MOST_WICKETS_CSV_FILE_PATH);
-        String player = iplAnalyser.getSortedData(SortField.BEST_BOWLING_AVERAGE,true);
+        String player = iplAnalyser.getSortedData(SortField.BEST_BOWLING_AVERAGE, true);
         IPLAnalyserDAO[] iplCSV = new Gson().fromJson(player, IPLAnalyserDAO[].class);
         Assert.assertEquals("Krishnappa Gowtham", iplCSV[0].playerName);
     }

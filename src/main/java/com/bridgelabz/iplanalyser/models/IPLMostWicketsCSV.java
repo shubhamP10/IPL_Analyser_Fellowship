@@ -39,18 +39,4 @@ public class IPLMostWicketsCSV {
     public IPLMostWicketsCSV() {
     }
 
-    public IPLMostWicketsCSV(String player, int match, int innings, double overs, int runs, int wickets,
-                             double average, double economy, double strikeRate, int fourWickets, int fiveWickets) {
-        this.player = player;
-        this.match = match;
-        this.innings = innings;
-        this.overs = overs;
-        this.runs = runs;
-        this.wickets = wickets;
-        this.average = average;
-        this.economy = economy;
-        this.strikeRate = strikeRate;
-        this.fourWickets = fourWickets;
-        this.fiveWickets = fiveWickets;
-    }
 }

@@ -11,16 +11,9 @@ import java.util.stream.IntStream;
 
 public class IPLAnalyser {
 
-    public static PlayerType playerType;
-
     List<IPLAnalyserDAO> iplList = null;
     Map<String, IPLAnalyserDAO> iplAnalyserMap = null;
-    Map<SortField, Comparator<IPLAnalyserDAO>> sortMap = null;
-
-    public IPLAnalyser(PlayerType playerType) {
-        IPLAnalyser.playerType = playerType;
-
-    }
+    Map<SortField, Comparator<IPLAnalyserDAO>> sortMap;
 
     public IPLAnalyser() {
         this.sortMap = new HashMap<>();
