@@ -29,6 +29,7 @@ public class IPLAnalyser {
         this.sortMap.put(SortField.SIXES_AND_FOURS, Comparator.comparing(ipl -> ipl.sixes + ipl.fours));
         this.sortMap.put(SortField.MAXIMUM_RUNS, Comparator.comparing(ipl -> ipl.runs));
         this.sortMap.put(SortField.BEST_BOWLING_AVERAGE, Comparator.comparing(ipl -> ipl.average));
+        this.sortMap.put(SortField.ECONOMY, Comparator.comparing(ipl -> ipl.economy));
         Comparator<IPLAnalyserDAO> foursAndSixesComparator = Comparator.comparing(ipl -> ipl.sixes + ipl.fours);
         Comparator<IPLAnalyserDAO> averageComparator = Comparator.comparing(ipl -> ipl.average);
         Comparator<IPLAnalyserDAO> maxRunsComparator = Comparator.comparing(ipl -> ipl.runs);
@@ -43,12 +44,16 @@ public class IPLAnalyser {
         return iplAnalyserMap.size();
     }
 
-    public String getSortedData(SortField field) throws IPLAnalyserException {
+    public String getSortedData(SortField field, boolean reversed) throws IPLAnalyserException {
         if (iplList == null || iplList.size() == 0) {
             throw new IPLAnalyserException(IPLAnalyserException.ExceptionType.NO_DATA, "No Data");
         }
         iplList = new ArrayList<>(iplAnalyserMap.values());
-        this.sort(iplList, this.sortMap.get(field).reversed());
+        if (reversed) {
+            this.sort(iplList, this.sortMap.get(field).reversed());
+            return new Gson().toJson(iplList);
+        }
+        this.sort(iplList, this.sortMap.get(field));
         return new Gson().toJson(iplList);
     }
 
