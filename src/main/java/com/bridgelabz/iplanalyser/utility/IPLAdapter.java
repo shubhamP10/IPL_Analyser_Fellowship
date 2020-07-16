@@ -4,7 +4,6 @@ import com.bridgelabz.iplanalyser.exception.IPLAnalyserException;
 import com.bridgelabz.iplanalyser.models.IPLAnalyserDAO;
 import com.bridgelabz.iplanalyser.models.IPLMostRunsCSV;
 import com.bridgelabz.iplanalyser.models.IPLMostWicketsCSV;
-import com.bridgelabz.iplanalyser.services.IPLAnalyser;
 import com.bridgelabz.opencsvbuilder.CSVBuilderException;
 import com.bridgelabz.opencsvbuilder.CSVBuilderFactory;
 
@@ -26,16 +25,16 @@ public abstract class IPLAdapter {
     public <E> Map<String, IPLAnalyserDAO> loadIPLData(Class<E> IPLCSVClass, String... csvFilePath) throws IPLAnalyserException {
         Map<String, IPLAnalyserDAO> iplMap = new HashMap<>();
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath[0]))) {
-            Iterator<E> iplIterator = CSVBuilderFactory.createCSVBuilder().getOpenCSVFileIterator(reader, IPLCSVClass);
+            Iterator iplIterator = CSVBuilderFactory.createCSVBuilder().getOpenCSVFileIterator(reader, IPLCSVClass);
             Iterable<E> iplCSV = () -> iplIterator;
-            IPLAnalyser.PlayerType playerType = IPLAnalyser.playerType;
-            switch (playerType) {
-                case BATSMAN:
+
+            switch (IPLCSVClass.getSimpleName()) {
+                case "IPLMostRunsCSV":
                     StreamSupport.stream(iplCSV.spliterator(), false)
                             .map(IPLMostRunsCSV.class::cast)
                             .forEach(iplCSVObj -> iplMap.put(iplCSVObj.player, new IPLAnalyserDAO(iplCSVObj)));
                     break;
-                case BOWLER :
+                case "IPLMostWicketsCSV":
                     StreamSupport.stream(iplCSV.spliterator(), false)
                             .map(IPLMostWicketsCSV.class::cast)
                             .forEach(iplCSVObj -> iplMap.put(iplCSVObj.player, new IPLAnalyserDAO(iplCSVObj)));

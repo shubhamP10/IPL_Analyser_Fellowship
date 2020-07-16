@@ -2,6 +2,8 @@ package com.bridgelabz.iplanalyser.exception;
 
 public class IPLAnalyserException extends Exception {
 
+    public ExceptionType type;
+
     public IPLAnalyserException(ExceptionType type, String message) {
         super(message);
         this.type = type;
@@ -12,6 +14,5 @@ public class IPLAnalyserException extends Exception {
         this.type = ExceptionType.valueOf(name);
     }
 
-    public enum ExceptionType{NO_DATA,FILE_NOT_FOUND,PARSE_ERROR,IPL_FILE_PROBLEM}
-    public ExceptionType type;
+    public enum ExceptionType {NO_DATA, PARSE_ERROR, IPL_FILE_PROBLEM}
 }

@@ -43,19 +43,4 @@ public class IPLMostRunsCSV {
     public IPLMostRunsCSV() {
     }
 
-    public IPLMostRunsCSV(String player, int match, int innings, double average, double strikeRate, String highestScore,
-                          int notOut, int runs, int fifties, int hundreds, int fours, int sixes) {
-        this.player = player;
-        this.match = match;
-        this.innings = innings;
-        this.notOut = notOut;
-        this.runs = runs;
-        this.highestScore = highestScore;
-        this.average = average;
-        this.strikeRate = strikeRate;
-        this.hundreds = hundreds;
-        this.fifties = fifties;
-        this.fours = fours;
-        this.sixes = sixes;
-    }
 }
