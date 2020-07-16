@@ -1,8 +1,11 @@
 package com.bridgelabz.iplanalyser;
 
 import com.bridgelabz.iplanalyser.exception.IPLAnalyserException;
+import com.bridgelabz.iplanalyser.models.IPLAnalyserDAO;
 import com.bridgelabz.iplanalyser.models.IPLMostRunsCSV;
 import com.bridgelabz.iplanalyser.services.IPLAnalyser;
+import com.bridgelabz.iplanalyser.utility.SortField;
+import com.google.gson.Gson;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,19 +38,17 @@ public class IPLAnalyserTest {
         }
     }
 
+    //    UC1
     @Test
-    public void giveIPLMostRunsCSVFile_ShouldReturn_PlayerWith_TopBattingAverage() {
-        try {
-            IPLAnalyser iplAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN);
-            iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
-            IPLMostRunsCSV bestBattingAveragePlayer = iplAnalyser.getTopBattingAveragePlayer();
-            Assert.assertThat(bestBattingAveragePlayer.player, CoreMatchers.is("MS Dhoni"));
-        } catch (IPLAnalyserException e) {
-            System.out.println("Fail");
-            e.printStackTrace();
-        }
+    public void getBestAverage() throws IPLAnalyserException {
+        IPLAnalyser iplAnalyser = new IPLAnalyser();
+        iplAnalyser.loadIPLData(IPLAnalyser.PlayerType.BATSMAN, MOST_RUNS_CSV_FILE_PATH);
+        String player = iplAnalyser.getSortedData(SortField.AVERAGE);
+        IPLAnalyserDAO[] iplCSV = new Gson().fromJson(player, IPLAnalyserDAO[].class);
+        Assert.assertEquals("MS Dhoni", iplCSV[0].playerName);
     }
 
+    //    UC2
     @Test
     public void giveIPLMostRunsCSVFile_ShouldReturn_PlayerWith_TopStrikeRate() {
         try {
